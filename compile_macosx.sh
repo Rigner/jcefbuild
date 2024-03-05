@@ -2,7 +2,7 @@
 
 if [ $# -lt 2 ] || [ $# -eq 3 ]
   then
-    echo "Usage: ./compile_macosx.sh <architecture> <buildType> [<gitrepo> <gitref>] [<certname> <teamname> <applekeyid> <applekeypath> <applekeyissuer>]"
+    echo "Usage: ./compile_macosx.sh <architecture> <buildType> [<gitrepo> <gitref>] [<certname> <teamname> <appleid> <applepass>]"
     echo ""
     echo "architecture: the target architecture to build for. Architectures are either amd64 or arm64."
     echo "buildType: either Release or Debug"
@@ -10,9 +10,8 @@ if [ $# -lt 2 ] || [ $# -eq 3 ]
     echo "gitref: the git commit id to pull"
     echo "certname: the apple signing certificate name. Something like \"Developer ID Application: xxx (yyy)\""
     echo "teamname: the apple team name. 10-digit id yyy from the cert name."
-    echo "applekeyid: id of your apple api key"
-    echo "applekeypath: path to your apple api key"
-    echo "applekeyissuer: uuid of your apple api key issuer"
+    echo "appleid: id of your apple account"
+    echo "applepass: password of your apple account"
     exit 1
 fi
 
@@ -74,7 +73,7 @@ cd binary_distrib/macosx64
 if [ $# -gt 4 ]
   then
     chmod +x $WORK_DIR/macosx_codesign.sh
-    bash $WORK_DIR/macosx_codesign.sh $(pwd) "$5" $6 $7 $8 $9
+    bash $WORK_DIR/macosx_codesign.sh $(pwd) "$5" $6 $7 $8
     retVal=$?
     if [ $retVal -ne 0 ]; then
         echo "Binaries are not correctly signed"
