@@ -3,7 +3,7 @@
 #Contents partly stolen from https://scriptingosx.com/2019/09/notarize-a-command-line-tool/
 #Will need updating for XCode 13+
 
-if [ $# -lt 7 ]
+if [ $# -lt 6 ]
   then
     echo "Usage: ./macosx_notarize.sh <path> <certname> <teamname> <bundleid> <appleid> <applepass>"
     echo ""
