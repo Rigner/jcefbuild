@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -lt 6 ]
+if [ $# -lt 5 ]
   then
     echo "Usage: ./macosx_codesign.sh <path> <certname> <teamname> <appleid> <applepass>"
     echo ""
