@@ -27,6 +27,7 @@ jobs:
       -
         name: Build
         run: |
+          apt install zip
           chmod +x compile_linux.sh
           ./compile_linux.sh amd64 Release ${{ github.event.inputs.repo }} ${{ github.event.inputs.ref }}
       -
