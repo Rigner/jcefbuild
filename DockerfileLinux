@@ -27,6 +27,7 @@ COPY scripts/patch_cmake.py .
 COPY patch/CMakeLists.txt.patch .
 
 #Copy and launch run script
+ENV TARGET_ARCH="x86_64"
 COPY scripts/run_linux.sh .
 RUN chmod +x run_linux.sh
 RUN ./run_linux.sh
