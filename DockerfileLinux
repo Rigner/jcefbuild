@@ -12,6 +12,8 @@ ARG TARGETARCH
 ARG REPO
 ARG REF
 
+RUN apt-get install curl zip unzip tar
+
 WORKDIR /builder
 #Copy existing sources, if any
 COPY jcef /jcef

@@ -6,11 +6,11 @@ on:
       repo:
         description: 'Git repository to clone'
         required: true
-        default: 'https://bitbucket.org/chromiumembedded/java-cef.git'
+        default: 'https://github.com/JetBrains/jcef'
       ref:
         description: 'Git commit id to checkout'
         required: true
-        default: 'master'
+        default: 'dev'
 
 jobs:
   build-linux-amd64:
@@ -27,7 +27,6 @@ jobs:
       -
         name: Build
         run: |
-          sudo apt-get install zip
           chmod +x compile_linux.sh
           ./compile_linux.sh amd64 Release ${{ github.event.inputs.repo }} ${{ github.event.inputs.ref }}
       -
