@@ -12,7 +12,7 @@ ARG TARGETARCH
 ARG REPO
 ARG REF
 
-RUN apt-get install -y curl zip unzip tar
+RUN apt-get install -y curl zip unzip tar ant flex bison
 
 WORKDIR /builder
 #Copy existing sources, if any
@@ -27,7 +27,6 @@ COPY scripts/patch_cmake.py .
 COPY patch/CMakeLists.txt.patch .
 
 #Copy and launch run script
-ENV TARGET_ARCH="x86_64"
 COPY scripts/run_linux.sh .
 RUN chmod +x run_linux.sh
 RUN ./run_linux.sh

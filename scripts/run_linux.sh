@@ -34,38 +34,51 @@ python3 /builder/patch_cmake.py CMakeLists.txt /builder/CMakeLists.txt.patch
 # Create and enter the `jcef_build` directory.
 # The `jcef_build` directory name is required by other JCEF tooling
 # and should not be changed.
-if [ ! -d "jcef_build" ]; then
-    mkdir jcef_build
+#if [ ! -d "jcef_build" ]; then
+#    mkdir jcef_build
+#fi
+#cd jcef_build
+set -e
+
+if [ -z "${JAVA_HOME}" ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 fi
-cd jcef_build
+
+if [ ${TARGETARCH} == 'amd64' ]; then
+    export JB_ARCH=x86_64
+else
+    export JB_ARCH=${TARGETARCH}
+fi
+
+./jb/tools/linux/build.sh all ${JB_ARCH}
 
 # Check if the download was already performed. If so, we wont send it outside of the container at the end
-export already_downloaded=0
-for f in ../third_party/cef/cef_binary_*; do
-    test -d "$f" || continue
+#export already_downloaded=0
+#for f in ../third_party/cef/cef_binary_*; do
+#    test -d "$f" || continue
     #We found a matching dir
-    export already_downloaded=1
-    break
-done
+#    export already_downloaded=1
+#    break
+#done
 
 # Linux: Generate 32/64-bit Unix Makefiles.
-cmake -G "Ninja" -DPROJECT_ARCH=${TARGETARCH} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
-# Build native part using ninja.
-ninja -j4
+#cmake -G "Ninja" -DPROJECT_ARCH=${TARGETARCH} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
+## Build native part using ninja.
+#ninja -j4
 
 #Compile JCEF java classes
-cd ../tools
-chmod +x compile.sh
-if [ ${TARGETARCH} == 'amd64' ] || [ ${TARGETARCH} == 'arm64' ]; then
-    ./compile.sh linux64
-elif [ ${TARGETARCH} == '386' ]; then
-    echo "386 is no longer supported since chromium 104"
-    exit 1
-else
-    echo "Can not compile java classes under arm/v6 currently. So we copy from prebuild directory."
-    mkdir -p /jcef/out/linux32
-    cp -r /prebuild/* /jcef/out/linux32/
-fi
+#cd ../tools
+#chmod +x compile.sh
+#if [ ${TARGETARCH} == 'amd64' ] || [ ${TARGETARCH} == 'arm64' ]; then
+#    ./compile.sh linux64
+#elif [ ${TARGETARCH} == '386' ]; then
+#    echo "386 is no longer supported since chromium 104"
+#    exit 1
+#else
+#    echo "Can not compile java classes under arm/v6 currently. So we copy from prebuild directory."
+#    mkdir -p /jcef/out/linux32
+#    cp -r /prebuild/* /jcef/out/linux32/
+#fi
 
 #Entering distribution phase - disable error handling (javadoc building fails here nontheless)
 set -e
