@@ -21,7 +21,7 @@ jobs:
         name: Build
         shell: cmd
         run: |
-          compile_windows.bat amd64 Release ${{ github.event.inputs.repo }} ${{ github.event.inputs.ref }}
+          compile_windows.bat amd64 Debug ${{ github.event.inputs.repo }} ${{ github.event.inputs.ref }}
       -
         name: Export artifacts
         uses: actions/upload-artifact@v3
